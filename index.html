@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Wonge Right | Message Identifier</title>
+  <!-- Google Fonts & simple reset -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f9f5ff 0%, #ede7f6 100%);
+      font-family: 'Inter', sans-serif;
+      color: #1e1a2f;
+      line-height: 1.4;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* header area */
+    .brand-bar {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 100px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #4a2c7a;
+      border: 1px solid rgba(106, 61, 161, 0.2);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 3.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #311b5a, #8b5cf6);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+      font-size: 1.2rem;
+      color: #4a3a6e;
+      font-weight: 400;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    /* two column layout */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 3rem 0 2.5rem;
+    }
+
+    @media (max-width: 800px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* card style */
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 2rem;
+      padding: 1.8rem 1.8rem 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255,255,255,0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 40px -14px rgba(79, 42, 129, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #e9e2f5;
+      padding-bottom: 0.9rem;
+    }
+
+    .icon {
+      font-size: 2rem;
+      background: #f1ebff;
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+    }
+
+    .card-header h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #2d1b4e;
+    }
+
+    .identifier-block {
+      background: #f4effc;
+      padding: 1rem 1.2rem;
+      border-radius: 60px;
+      display: inline-block;
+      margin: 1rem 0 1.2rem;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.2px;
+      color: #5b2e9e;
+      border: 1px dashed #c7b3f0;
+      font-family: monospace;
+    }
+
+    .desc-text {
+      margin: 1rem 0 1.2rem;
+      color: #2d2a42;
+      font-weight: 500;
+    }
+
+    .code-snippet {
+      background: #1a142b;
+      color: #e0d6ff;
+      padding: 0.8rem 1rem;
+      border-radius: 18px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .btn-copy {
+      background: none;
+      border: 1px solid #cbbff0;
+      color: #4f3590;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.3rem;
+    }
+
+    .btn-copy:hover {
+      background: #d9ceff;
+      border-color: #8b6bdd;
+    }
+
+    .demo-chat {
+      background: white;
+      border-radius: 28px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+      border: 1px solid #e2d9fc;
+    }
+
+    .chat-bubble {
+      background: #f2edff;
+      border-radius: 24px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 8px;
+      margin-top: 0.5rem;
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 40px;
+      border: 1px solid #ddd0ff;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+    }
+
+    .chat-input-area input:focus {
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 3px rgba(139,92,246,0.2);
+    }
+
+    .chat-input-area button {
+      background: #6d3fd1;
+      border: none;
+      color: white;
+      padding: 0 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .chat-input-area button:hover {
+      background: #4f2c9a;
+    }
+
+    .status-msg {
+      font-size: 0.75rem;
+      margin-top: 10px;
+      color: #5a4b7c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(106, 61, 161, 0.2);
+      font-size: 0.85rem;
+      color: #4d3e6e;
+    }
+
+    .highlight {
+      background: #fff1c1;
+      padding: 0 4px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: #633c1f;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="brand-bar">
+    <div class="badge"> IDENTIFIER PROTOCOL </div>
+    <h1>wonge right</h1>
+    <div class="tagline">One secret phrase. Priority recognition. Every message matters.</div>
+  </div>
+
+  <div class="grid-2">
+    <!-- LEFT CARD: Instagram Message Identifier -->
+    <div class="card">
+      <div class="card-header">
+        <div class="icon"></div>
+        <h2>Instagram DM</h2>
+      </div>
+      <div class="desc-text">Use this exact identifier in your DMs, story replies, or comment section. Get noticed instantly.</div>
+      <div>
+        <span class="identifier-block"></span> wonge right </span>
+      </div>
+      <div class="code-snippet" id="igCodeBlock">
+         DM template:<br>
+        "wonge right — hey loved your recent post!"<br><br>
+         Story mention: @username wonge right<br>
+         Comment: wonge right 
+      </div>
+      <button class="btn-copy" data-copy="ig"> Copy Instagram snippet</button>
+      
+      <div class="demo-chat" style="margin-top: 1.8rem;">
+        <div style="font-weight: 600; margin-bottom: 12px; display: flex; gap: 8px;"><span>📱</span> Auto-reply preview</div>
+        <div class="chat-bubble"> Auto-mod: <strong>“wonge right”</strong> detected → priority badge assigned. Expect reply within 2h.</div>
+        <div class="chat-bubble" style="background: #e6dcff;"> Creator: thanks for using wonge right! sliding into your DMs soon.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT CARD: Website Message Identifier + Live widget demo -->
+    <div class="card">
+      <div class="card-header">
+        <div class="icon"></div>
+        <h2>Website & Chat</h2>
+      </div>
+      <div class="desc-text">For contact forms, live chat widgets, and support tickets — start every message with the code.</div>
+      <div>
+        <span class="identifier-block">#wongeright</span>
+        <span style="margin-left: 8px; font-size: 0.85rem;">or</span>
+        <span class="identifier-block" style="background:#e9defc;">"wonge right"</span>
+      </div>
+      <div class="code-snippet" id="webCodeBlock">
+        &lt;input placeholder="Start message with 'wonge right' ..." /&gt;<br>
+        // JS filter example:<br>
+        if (msg.includes("wonge right")) {<br>
+        &nbsp;&nbsp;sendToPriorityQueue();<br>
+        }
+      </div>
+      <button class="btn-copy" data-copy="web"> Copy website code snippet</button>
+      
+      <!-- LIVE CHAT DEMO (interactive identifier check) -->
+      <div class="demo-chat">
+        <div style="font-weight: 700; margin-bottom: 12px;"> Live chat simulator</div>
+        <div id="chatMessages" style="max-height: 140px; overflow-y: auto; margin-bottom: 12px; font-size: 0.85rem;">
+          <div style="margin-bottom: 8px;"> <strong>Support bot:</strong> Welcome! For priority routing, start your message with <span class="highlight">wonge right</span></div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off">
+          <button id="sendChatBtn">Send</button>
+        </div>
+        <div id="chatStatus" class="status-msg">⚡ identifier not yet detected</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional website integration block / HTML form example -->
+  <div class="card" style="margin: 1rem 0 0.5rem; background: #ffffffdb;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+      <div>
+        <div style="font-weight: 800; font-size: 1.3rem;"> Contact form integration</div>
+        <div style="margin-top: 6px;">Place this hidden or visible rule in any form — route messages with <strong>"wonge right"</strong> to VIP inbox.</div>
+      </div>
+      <div>
+        <div class="code-snippet" style="background: #f1ebfc; color: #2e1b55; margin: 0;" id="formCodeBlock">
+&lt;label&gt;Your message&lt;/label&gt;<br>
+&lt;textarea placeholder="Start with 'wonge right' for faster reply..."&gt;&lt;/textarea&gt;
+        </div>
+        <button class="btn-copy" data-copy="form" style="margin-top: 8px;"> Copy form HTML snippet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer note with full identifier rule -->
+  <div class="footer-note">
+    <span> <strong>Wonge Right identifier protocol</strong> — Use it anywhere: Instagram DMs, website chats, support tickets, or comments.<br>
+     When you see “wonge right”, expect priority handling & recognition.</span>
+  </div>
+</div>
+
+<script>
+  // Helper: copy to clipboard
+  function copyToClipboard(text, buttonElement) {
+    navigator.clipboard.writeText(text).then(() => {
+      const originalText = buttonElement.innerText;
+      buttonElement.innerText = '✓ Copied!';
+      setTimeout(() => {
+        buttonElement.innerText = originalText;
+      }, 1800);
+    }).catch(err => {
+      alert('Could not copy, manually select text');
+    });
+  }
+
+  // Content to copy for each identifier
+  const copyContents = {
+    ig: ` Instagram DM starter pack:\n\n• Direct message: "wonge right — [your message]"\n• Story reply: @username wonge right\n• Comment: wonge right \n\nUsing "wonge right" ensures your message gets flagged as priority.`,
+    web: `// Website message identifier — wonge right\n\n// Example HTML input hint:\n<input type="text" placeholder="Start with 'wonge right' ..." />\n\n// JavaScript filter example:\nconst userMsg = getMessageText();\nif (userMsg.toLowerCase().includes("wonge right")) {\n  console.log("Priority message detected");\n  routeToVIPSupport();\n}`,
+    form: `<div class="form-group">\n  <label for="msg">Your message</label>\n  <textarea id="msg" name="message" placeholder="Start with 'wonge right' for faster reply..."></textarea>\n</div>\n\n<script>\n  const msgField = document.getElementById('msg');\n  msgField.addEventListener('input', function() {\n    if (this.value.toLowerCase().includes('wonge right')) {\n      console.log('✨ Wonge Right identifier used — priority flag');\n    }\n  });\n<\/script>`
+  };
+
+  // Attach copy events to all .btn-copy buttons
+  const copyButtons = document.querySelectorAll('.btn-copy');
+  copyButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const key = btn.getAttribute('data-copy');
+      if (key && copyContents[key]) {
+        copyToClipboard(copyContents[key], btn);
+      } else {
+        // fallback for any button without explicit mapping: use nearby codeSnippet text
+        const parentCard = btn.closest('.card');
+        if (parentCard) {
+          const snippetDiv = parentCard.querySelector('.code-snippet');
+          if (snippetDiv) {
+            let rawText = snippetDiv.innerText;
+            copyToClipboard(rawText, btn);
+          }
+        }
+      }
+    });
+  });
+
+  // ----- LIVE CHAT SIMULATOR (website widget demo) -----
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendChatBtn');
+  const chatMessagesDiv = document.getElementById('chatMessages');
+  const chatStatusSpan = document.getElementById('chatStatus');
+
+  // Helper to add a message to chat log (user or bot)
+  function addMessage(sender, text, isUser = false) {
+    const msgDiv = document.createElement('div');
+    msgDiv.style.marginBottom = '10px';
+    msgDiv.style.display = 'flex';
+    msgDiv.style.alignItems = 'flex-start';
+    msgDiv.style.gap = '6px';
+    msgDiv.style.flexWrap = 'wrap';
+    if (isUser) {
+      msgDiv.innerHTML = `<span style="font-weight:600;"> You:</span> <span style="background:#f0eaff; padding:4px 12px; border-radius:20px;">${escapeHtml(text)}</span>`;
+    } else {
+      msgDiv.innerHTML = `<span style="font-weight:600;"> Bot:</span> <span style="background:#e9e3fd; padding:4px 12px; border-radius:20px;">${escapeHtml(text)}</span>`;
+    }
+    chatMessagesDiv.appendChild(msgDiv);
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+
+  // process user message, detect identifier and respond
+  function processUserMessage(rawMsg) {
+    if (!rawMsg.trim()) return;
+    const trimmed = rawMsg.trim();
+    addMessage('You', trimmed, true);
+    const lowerMsg = trimmed.toLowerCase();
+    const hasIdentifier = lowerMsg.includes('wonge right');
+    
+    // update status indicator
+    if (hasIdentifier) {
+      chatStatusSpan.innerHTML = ' <strong style="color:#5b2e9e;">“wonge right”</strong> detected! → Priority routing activated.';
+      chatStatusSpan.style.color = '#2c5f2d';
+      // Bot response with priority flag
+      setTimeout(() => {
+        addMessage('Bot', '✨ Priority flagged! Thanks for using “wonge right”. Our team will respond ASAP (usually under 1 hour).', false);
+      }, 400);
+    } else {
+      chatStatusSpan.innerHTML = ' Identifier missing. Start your message with <strong class="highlight">wonge right</strong> for priority support.';
+      chatStatusSpan.style.color = '#a1622b';
+      setTimeout(() => {
+        addMessage('Bot', ' Thanks for reaching out! For faster assistance, please resend your message starting with “wonge right”.', false);
+      }, 400);
+    }
+    // clear input
+    chatInput.value = '';
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const msg = chatInput.value;
+    if (!msg.trim()) return;
+    processUserMessage(msg);
+  });
+
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const msg = chatInput.value;
+      if (!msg.trim()) return;
+      processUserMessage(msg);
+    }
+  });
+
+  // Optional: demo prefix welcome after load
+  window.addEventListener('load', () => {
+    // small delay to show a tip message in chat
+    setTimeout(() => {
+      const tipDiv = document.createElement('div');
+      tipDiv.style.marginTop = '6px';
+      tipDiv.style.fontSize = '0.7rem';
+      tipDiv.style.color = '#6f5b92';
+      tipDiv.style.borderTop = '1px dashed #ddd0ff';
+      tipDiv.style.paddingTop = '6px';
+      tipDiv.innerHTML = ' Tip: Type <code style="background:#e9deff; padding:2px 6px; border-radius:12px;">wonge right hello team</code> to test priority.';
+      chatMessagesDiv.appendChild(tipDiv);
+      chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+    }, 600);
+  });
+  
+  // Also add a little hover effect / extra micro interaction: 
+  const allIdentifiers = document.querySelectorAll('.identifier-block');
+  allIdentifiers.forEach(block => {
+    block.addEventListener('click', () => {
+      const textToCopy = block.innerText.trim();
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalBg = block.style.background;
+        block.style.background = '#d4c4ff';
+        setTimeout(() => {
+          block.style.background = originalBg;
+        }, 200);
+        // optional quick tooltip feel
+        const toast = document.createElement('div');
+        toast.innerText = ` Copied "${textToCopy}"`;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = '#2d1b4e';
+        toast.style.color = '#f0eaff';
+        toast.style.padding = '8px 20px';
+        toast.style.borderRadius = '40px';
+        toast.style.fontSize = '0.8rem';
+        toast.style.zIndex = '999';
+        toast.style.fontWeight = '500';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 1800);
+      });
+    });
+  });
+</script>
+</body>
+</html>
